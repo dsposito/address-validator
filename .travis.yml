@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - '7.0'
+  - '7.1'
+
+# Install test coverage package.
+install:
+  - composer require squizlabs/php_codesniffer
+
+# Install packages and create test coverage log directory.
+before_script:
+  - composer install --dev --no-interaction
+
+# Run tests and generate test coverage report.
+script:
+  - vendor/bin/phpcs ./src ./tests --extensions=php --standard=PSR2
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
