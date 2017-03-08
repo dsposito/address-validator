@@ -16,7 +16,13 @@
         "easypost/easypost-php": "^3.0",
         "guzzlehttp/guzzle":  "^5.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
     "autoload": {
         "psr-4": {"Dsposito\\Validator\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"Dsposito\\Validator\\Tests\\": "tests/"}
     }
 }
