@@ -1,0 +1,22 @@
+{
+    "name": "dsposito/address-validator",
+    "type": "library",
+    "description": "Address validator that support multiple validation 3rd-parties.",
+    "keywords": ["address", "address validator", "usps", "easypost", "php"],
+    "homepage": "https://github.org/dsposito/address-validator",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Sposito",
+            "homepage": "https://github.com/dsposito"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "easypost/easypost-php": "^3.0",
+        "guzzlehttp/guzzle":  "^5.0"
+    },
+    "autoload": {
+        "psr-4": {"Dsposito\\Validator\\": "src/"}
+    }
+}
