@@ -76,7 +76,8 @@ class Usps extends Provider
      *
      * @return bool|array
      */
-    protected function sendRequest(SimpleXMLElement $request) {
+    protected function sendRequest(SimpleXMLElement $request)
+    {
         try {
             $client = new GuzzleClient();
             $response = $client->post(
