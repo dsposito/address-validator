@@ -15,6 +15,12 @@ before_script:
 # Run tests and generate test coverage report.
 script:
   - vendor/bin/phpcs ./src ./tests --extensions=php --standard=PSR2
+  - phpunit -d usps_user_id=$USPS_USER_ID -d easypost_api_key=$EASYPOST_API_KEY
+
+# Cache composer bits for faster test suite runs.
+cache:
+  directories:
+  - $HOME/.composer/cache
 
 notifications:
   email:
