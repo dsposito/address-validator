@@ -40,5 +40,5 @@ abstract class Provider
      *
      * return Object|bool
      */
-    abstract function validate(Address $address);
+    abstract public function validate(Address $address);
 }
