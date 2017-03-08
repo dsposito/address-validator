@@ -35,7 +35,7 @@ class Usps extends Provider
         $request = $this->buildXMLRequest($address);
         $response = $this->sendRequest($request);
 
-        if ($response || isset($response['Error'])) {
+        if (!$response || isset($response['Error'])) {
             return false;
         } else {
             $address->setValidated();
