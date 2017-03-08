@@ -32,14 +32,14 @@ class Usps extends Provider
             $address->street2 = '';
         }
 
-        $address_xml = $this->prepareXML($address);
-        $usps_api_response = $this->sendRequest($address_xml);
+        $request = $this->buildXMLRequest($address);
+        $response = $this->sendRequest($request);
 
-        if (isset($usps_api_response['Error'])) {
+        if ($response || isset($response['Error'])) {
             return false;
         } else {
             $address->setValidated();
-            return $this->formatCleanedAddress($usps_api_response, $address);
+            return $this->formatCleanedAddress($response, $address);
         }
     }
 
@@ -48,36 +48,35 @@ class Usps extends Provider
      *
      * @param Address $address Unvalidated address object.
      *
-     * @return string
+     * @return SimpleXMLElement
      */
-    protected function prepareXML(Address $address)
+    protected function buildXMLRequest(Address $address)
     {
-        $xml = new SimpleXMLElement(
+        $element = new SimpleXMLElement(
             "<AddressValidateRequest USERID='" . $this->config['user_id'] . "'></AddressValidateRequest>"
         );
 
-        $address_xml = $xml->addChild('Address');
-        $address_xml->addAttribute('ID', "1");
+        $body = $element->addChild('Address');
+        $body->addAttribute('ID', "1");
         // USPS requires that Address1 and Address2 be reversed from norm.
-        $address_xml->addChild('Address1', $address->street2);
-        $address_xml->addChild('Address2', $address->street1);
-        $address_xml->addChild('City', $address->city);
-        $address_xml->addChild('State', $address->state);
-        $address_xml->addChild('Zip5', $address->zip);
-        $address_xml->addChild('Zip4');
+        $body->addChild('Address1', $address->street2);
+        $body->addChild('Address2', $address->street1);
+        $body->addChild('City', $address->city);
+        $body->addChild('State', $address->state);
+        $body->addChild('Zip5', $address->zip);
+        $body->addChild('Zip4');
 
-        return $xml->asXML();
+        return $element;
     }
 
     /**
      * Sends XML data to USPS api and returns an array on success or false on failure.
      *
-     * @param $address_xml XML object with address information.
+     * @param SimpleXMLElement $request XML object with address information.
      *
      * @return bool|array
      */
-    protected function sendRequest(string $address_xml)
-    {
+    protected function sendRequest(SimpleXMLElement $request) {
         try {
             $client = new GuzzleClient();
             $response = $client->post(
@@ -86,7 +85,7 @@ class Usps extends Provider
                     'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
                     'body' => array(
                         'API' => 'Verify',
-                        'XML' => $address_xml,
+                        'XML' => $request->asXML(),
                     ),
                     'connect_timeout' => 2,
                     'timeout' => 4
