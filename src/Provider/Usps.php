@@ -70,7 +70,7 @@ class Usps extends Provider
     }
 
     /**
-     * Sends XML data to USPS api and returns an array on success or false on failure.
+     * Sends XML data to USPS API.
      *
      * @param SimpleXMLElement $request XML object with address information.
      *
