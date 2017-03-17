@@ -23,7 +23,7 @@ class Address
      *
      * @return void
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         if (!empty($data)) {
             $this->loadData($data);
@@ -59,7 +59,7 @@ class Address
      *
      * @return void
      */
-    protected function loadData(array $data = array())
+    protected function loadData(array $data = [])
     {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {

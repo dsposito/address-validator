@@ -82,15 +82,15 @@ class Usps extends Provider
             $client = new GuzzleClient();
             $response = $client->post(
                 $this->config['endpoint'],
-                array(
-                    'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
-                    'body' => array(
+                [
+                    'headers' => ['Content-Type' => 'application/x-www-form-urlencoded'],
+                    'body' => [
                         'API' => 'Verify',
                         'XML' => $request->asXML(),
-                    ),
+                    ],
                     'connect_timeout' => 2,
                     'timeout' => 4
-                )
+                ]
             );
         } catch (Exception $e) {
             return false;
@@ -120,14 +120,14 @@ class Usps extends Provider
     protected function formatCleanedAddress(array $cleaned_address, Address $address)
     {
         // USPS requires that Address1 and Address2 be reversed from norm.
-        $formatted_address = array(
+        $formatted_address = [
             'street1' => self::formatValue($cleaned_address, 'Address2', $address->street1),
             'street2' => self::formatValue($cleaned_address, 'Address1', $address->street2),
             'city' => self::formatValue($cleaned_address, 'City', $address->city),
             'state' => self::formatValue($cleaned_address, 'State', $address->state),
             'zip' => self::formatValue($cleaned_address, 'Zip5', $address->zip),
             'country' => $address->country,
-        );
+        ];
 
         $street_1 = str_replace($formatted_address['street2'], '', $formatted_address['street1']);
         $formatted_address['street1'] = trim($street_1);

@@ -20,7 +20,7 @@ abstract class Provider
      *
      * @return Provider
      */
-    public static function instance(string $provider, array $options = array())
+    public static function instance(string $provider, array $options = [])
     {
         $class = __NAMESPACE__ . '\\Provider\\' . ucfirst($provider);
         if (!class_exists($class)) {

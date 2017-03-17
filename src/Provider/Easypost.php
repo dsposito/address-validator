@@ -57,16 +57,14 @@ class Easypost extends Provider
      */
     protected function formatAddress(EasyPostAddress $address)
     {
-        $formatted_address = array(
+        return [
             'street1' => self::formatValue($address->street1),
             'street2' => self::formatValue($address->street2),
             'city' => self::formatValue($address->city),
             'state' => $address->state,
             'zip' => $address->zip,
             'country' => $address->country
-        );
-
-        return $formatted_address;
+        ];
     }
 
     /**
