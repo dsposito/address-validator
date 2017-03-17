@@ -19,7 +19,7 @@ class Address
     /**
      * Initializes the class.
      *
-     * @param array $data Key value data to populate object properties.
+     * @param array $data Key/value data to populate object properties.
      *
      * @return void
      */
@@ -55,7 +55,7 @@ class Address
     /**
      * Attempts to map array data to object properties.
      *
-     * @param array $data Key value data to populate object properties.
+     * @param array $data Key/value data to populate object properties.
      *
      * @return void
      */

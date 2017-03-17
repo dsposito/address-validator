@@ -9,16 +9,16 @@ use EasyPost\EasyPost as EasyPostClient;
 use Exception;
 
 /**
- * Handles address validation with EasyPost API.
+ * Handles address validation with this EasyPost API.
  */
 class Easypost extends Provider
 {
     /**
      * Returns validated and cleaned address information.
      *
-     * @param Address $address Address object with uncleaned, unvalidated information.
+     * @param Address $address The address data to validate.
      *
-     * @return array|bool The cleaned address or a false value on failure.
+     * @return array|bool
      */
     public function validate(Address $address)
     {

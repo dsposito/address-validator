@@ -9,16 +9,16 @@ use GuzzleHttp\Client as GuzzleClient;
 use SimpleXMLElement;
 
 /**
- * Handles address validation with USPS API.
+ * Handles address validation with the USPS API.
  */
 class Usps extends Provider
 {
     /**
      * Returns validated and cleaned address information.
      *
-     * @param Address $address Address object with uncleaned, unvalidated information.
+     * @param Address $address The address data to validate.
      *
-     * @return array|bool The cleaned address or a false value on failure.
+     * @return array|bool
      */
     public function validate(Address $address)
     {
@@ -44,7 +44,7 @@ class Usps extends Provider
     }
 
     /**
-     * Uses SimpleXML to create an XML object for address information.
+     * Builds an XML object with address information.
      *
      * @param Address $address Unvalidated address object.
      *
@@ -70,11 +70,11 @@ class Usps extends Provider
     }
 
     /**
-     * Sends XML data to USPS API.
+     * Sends a request to the USPS API.
      *
-     * @param SimpleXMLElement $request XML object with address information.
+     * @param SimpleXMLElement $request XML address data to validate via the request.
      *
-     * @return bool|array
+     * @return array|bool
      */
     protected function sendRequest(SimpleXMLElement $request)
     {
@@ -112,7 +112,7 @@ class Usps extends Provider
     /**
      * Standardizes the format of a validated, cleaned address.
      *
-     * @param array $cleaned_address Validated, cleaned address data returned from API.
+     * @param array $cleaned_address Validated, cleaned address data returned from the API.
      * @param Address $address Unvalidated address information object.
      *
      * @return array
@@ -148,6 +148,6 @@ class Usps extends Provider
     {
         $value = $address[$property] ?? $default;
 
-        return (ucwords(strtolower($value)));
+        return ucwords(strtolower($value));
     }
 }

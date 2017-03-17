@@ -13,12 +13,12 @@ abstract class Provider
     protected $config;
 
     /**
-     * Returns a singleton object of the Provider class.
+     * Returns an instance of the specified provider class.
      *
      * @param string $provider The name of the validator provider to instantiate.
      * @param array $options Optional key/value pair meta data.
      *
-     * @return Provider
+     * @return Provider|bool
      */
     public static function instance(string $provider, array $options = [])
     {
@@ -38,7 +38,7 @@ abstract class Provider
      *
      * @param Address $address Object with data to be validated.
      *
-     * return Object|bool
+     * return array|bool
      */
     abstract public function validate(Address $address);
 }
