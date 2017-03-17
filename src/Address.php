@@ -47,7 +47,7 @@ class Address
      *
      * @return bool
      */
-    public function hasBeenValidated()
+    public function hasBeenValidated(): bool
     {
         return $this->validated;
     }

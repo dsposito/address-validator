@@ -33,7 +33,7 @@ class Easypost extends Provider
                 'state' => $address->state,
                 'zip' => $address->zip,
                 'country' => $address->country,
-                'verify' => ['delivery']
+                'verify' => ['delivery'],
             ]);
         } catch (Exception $e) {
             return false;
@@ -55,7 +55,7 @@ class Easypost extends Provider
      *
      * @return array
      */
-    protected function formatAddress(EasyPostAddress $address)
+    protected function formatAddress(EasyPostAddress $address): array
     {
         return [
             'street1' => self::formatValue($address->street1),
@@ -63,7 +63,7 @@ class Easypost extends Provider
             'city' => self::formatValue($address->city),
             'state' => $address->state,
             'zip' => $address->zip,
-            'country' => $address->country
+            'country' => $address->country,
         ];
     }
 
@@ -74,8 +74,8 @@ class Easypost extends Provider
      *
      * @return string
      */
-    protected function formatValue($value)
+    protected function formatValue($value): string
     {
-        return (ucwords(strtolower($value)));
+        return ucwords(strtolower($value));
     }
 }

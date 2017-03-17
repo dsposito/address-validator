@@ -50,7 +50,7 @@ class Usps extends Provider
      *
      * @return SimpleXMLElement
      */
-    protected function buildXMLRequest(Address $address)
+    protected function buildXMLRequest(Address $address): SimpleXMLElement
     {
         $element = new SimpleXMLElement(
             "<AddressValidateRequest USERID='" . $this->config['user_id'] . "'></AddressValidateRequest>"
@@ -89,7 +89,7 @@ class Usps extends Provider
                         'XML' => $request->asXML(),
                     ],
                     'connect_timeout' => 2,
-                    'timeout' => 4
+                    'timeout' => 4,
                 ]
             );
         } catch (Exception $e) {
@@ -117,7 +117,7 @@ class Usps extends Provider
      *
      * @return array
      */
-    protected function formatCleanedAddress(array $cleaned_address, Address $address)
+    protected function formatCleanedAddress(array $cleaned_address, Address $address): array
     {
         // USPS requires that Address1 and Address2 be reversed from norm.
         $formatted_address = [
@@ -144,7 +144,7 @@ class Usps extends Provider
      *
      * @return string
      */
-    protected function formatValue(array $address, string $property, $default = null)
+    protected function formatValue(array $address, string $property, $default = null): string
     {
         $value = $address[$property] ?? $default;
 
