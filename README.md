@@ -1,5 +1,7 @@
 # Address Validator
 [![Build Status](https://travis-ci.org/dsposito/address-validator.svg?branch=master)](https://travis-ci.org/dsposito/address-validator)
+[![Coverage Status](https://coveralls.io/repos/github/dsposito/address-validator/badge.svg?branch=master)](https://coveralls.io/github/dsposito/address-validator?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/dsposito/address-validator/v/stable.png)](https://packagist.org/packages/dsposito/address-validator)
 
 ## Overview
 
