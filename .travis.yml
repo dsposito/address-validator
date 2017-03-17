@@ -12,7 +12,7 @@ before_script:
 # Check code formatting, run tests and generate test coverage report.
 script:
   - vendor/bin/phpcs ./src ./tests --extensions=php --standard=PSR2
-  - phpunit -d usps_user_id=$USPS_USER_ID -d easypost_api_key=$EASYPOST_API_KEY --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit -d usps_user_id=$USPS_USER_ID -d easypost_api_key=$EASYPOST_API_KEY --coverage-clover build/logs/clover.xml
 
 # Submit test coverage report to Coveralls.
 after_success:
