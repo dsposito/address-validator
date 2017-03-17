@@ -4,17 +4,12 @@ php:
   - '7.0'
   - '7.1'
 
-# Install test coverage package.
-install:
-  - composer require squizlabs/php_codesniffer
-  - composer require satooshi/php-coveralls
-
 # Install packages and create test coverage log directory.
 before_script:
   - composer install --dev --no-interaction
   - mkdir -p build/logs
 
-# Run tests and generate test coverage report.
+# Check code formatting, run tests and generate test coverage report.
 script:
   - vendor/bin/phpcs ./src ./tests --extensions=php --standard=PSR2
   - phpunit -d usps_user_id=$USPS_USER_ID -d easypost_api_key=$EASYPOST_API_KEY --coverage-clover build/logs/clover.xml
