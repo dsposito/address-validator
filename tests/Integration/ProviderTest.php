@@ -26,7 +26,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
     {
         $this->expectException(InvalidAddress::class);
 
-        $validation = (bool) $this->getProviderUsps()->validate(new Address([
+        $this->getProviderUsps()->validate(new Address([
             'name' => 'Elon Musk',
             'street1' => '3555 Deer Creek Lane',
             'city' => 'Palo Alto',
@@ -54,7 +54,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
     {
         $this->expectException(InvalidAddress::class);
 
-        $validation = (bool) $this->getProviderEasyPost()->validate(new Address([
+        $this->getProviderEasyPost()->validate(new Address([
             'name' => 'Apple Store, Market Mall',
             'street1' => '1 Shaganappi Trail Way',
             'city' => 'Edmondton',
