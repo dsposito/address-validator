@@ -7,4 +7,7 @@ use Dsposito\Validator\Exception;
 /**
  * Handles the invalid address exception.
  */
-class InvalidAddress extends Exception {}
+class InvalidAddress extends Exception
+{
+
+}

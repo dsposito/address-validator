@@ -5,4 +5,7 @@ namespace Dsposito\Validator;
 /**
  * Base exception class.
  */
-class Exception extends \Exception {}
+class Exception extends \Exception
+{
+
+}
