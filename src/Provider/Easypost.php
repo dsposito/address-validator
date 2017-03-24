@@ -3,6 +3,7 @@
 namespace Dsposito\Validator\Provider;
 
 use Dsposito\Validator\Address;
+use Dsposito\Validator\Exception\InvalidAddress;
 use Dsposito\Validator\Provider;
 use EasyPost\Address as EasyPostAddress;
 use EasyPost\EasyPost as EasyPostClient;
@@ -22,10 +23,29 @@ class Easypost extends Provider
      */
     public function validate(Address $address)
     {
+        $response = $this->sendRequest($address);
+
+        if (!$response || !$response->verifications->delivery->success) {
+            throw new InvalidAddress();
+        }
+
+        $address->setValidated();
+        return $this->formatAddress($response);
+    }
+
+    /**
+     * Sends a request to the API.
+     *
+     * @param Address $address The address data to valid via the request.
+     *
+     * @return array|bool
+     */
+    protected function sendRequest(Address $address)
+    {
         try {
             EasyPostClient::setApiKey($this->config['api_key']);
 
-            $verified_address = EasyPostAddress::create_and_verify([
+            return EasyPostAddress::create_and_verify([
                 'name' => $address->name,
                 'street1' => $address->street1,
                 'street2' => $address->street2,
@@ -38,14 +58,6 @@ class Easypost extends Provider
         } catch (Exception $e) {
             return false;
         }
-
-        if ($verified_address->verifications->delivery->success) {
-            $address->setValidated();
-
-            return $this->formatAddress($verified_address);
-        }
-
-        return false;
     }
 
     /**

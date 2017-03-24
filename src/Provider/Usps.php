@@ -3,6 +3,7 @@
 namespace Dsposito\Validator\Provider;
 
 use Dsposito\Validator\Address;
+use Dsposito\Validator\Exception\InvalidAddress;
 use Dsposito\Validator\Provider;
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
@@ -18,13 +19,13 @@ class Usps extends Provider
      *
      * @param Address $address The address data to validate.
      *
-     * @return array|bool
+     * @return array
      */
     public function validate(Address $address)
     {
         // Name is a required field - just not in USPS's API.
         if (empty($address->name)) {
-            return false;
+            throw new InvalidAddress();
         }
 
         // Streets should not be duplicated and avoid empty street1 from formatCleanedAddress().
@@ -36,11 +37,11 @@ class Usps extends Provider
         $response = $this->sendRequest($request);
 
         if (!$response || isset($response['Error'])) {
-            return false;
-        } else {
-            $address->setValidated();
-            return $this->formatCleanedAddress($response, $address);
+            throw new InvalidAddress();
         }
+
+        $address->setValidated();
+        return $this->formatCleanedAddress($response, $address);
     }
 
     /**
@@ -70,7 +71,7 @@ class Usps extends Provider
     }
 
     /**
-     * Sends a request to the USPS API.
+     * Sends a request to the API.
      *
      * @param SimpleXMLElement $request XML address data to validate via the request.
      *
