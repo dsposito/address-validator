@@ -14,7 +14,6 @@ class Address
     public $state;
     public $zip;
     public $country;
-    protected $validated;
 
     /**
      * Initializes the class.
@@ -28,28 +27,6 @@ class Address
         if (!empty($data)) {
             $this->loadData($data);
         }
-    }
-
-    /**
-     * Sets whether this address has been successfully validated.
-     *
-     * @return Address
-     */
-    public function setValidated()
-    {
-        $this->validated = true;
-
-        return $this;
-    }
-
-    /**
-     * Determines whether this address has been successfully validated.
-     *
-     * @return bool
-     */
-    public function hasBeenValidated(): bool
-    {
-        return $this->validated;
     }
 
     /**

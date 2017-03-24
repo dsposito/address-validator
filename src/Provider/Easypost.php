@@ -29,7 +29,6 @@ class Easypost extends Provider
             throw new InvalidAddress();
         }
 
-        $address->setValidated();
         return $this->formatAddress($response);
     }
 

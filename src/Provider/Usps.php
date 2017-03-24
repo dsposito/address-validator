@@ -40,7 +40,6 @@ class Usps extends Provider
             throw new InvalidAddress();
         }
 
-        $address->setValidated();
         return $this->formatCleanedAddress($response, $address);
     }
 
