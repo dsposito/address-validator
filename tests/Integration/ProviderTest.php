@@ -10,15 +10,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
 {
     public function testUSAddressIsValid()
     {
-        $provider = Provider::instance(
-            'usps',
-            [
-                'endpoint' => 'http://production.shippingapis.com/ShippingAPI.dll',
-                'user_id' => $this->config['usps_user_id'],
-            ]
-        );
-
-        $validation = (bool) $provider->validate(new Address([
+        $validation = (bool) $this->getProviderUsps()->validate(new Address([
             'name' => 'Elon Musk',
             'street1' => '3500 Deer Creek Road',
             'city' => 'Palo Alto',
@@ -34,15 +26,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
     {
         $this->expectException(InvalidAddress::class);
 
-        $provider = Provider::instance(
-            'usps',
-            [
-                'endpoint' => 'http://production.shippingapis.com/ShippingAPI.dll',
-                'user_id' => $this->config['usps_user_id'],
-            ]
-        );
-
-        $validation = (bool) $provider->validate(new Address([
+        $validation = (bool) $this->getProviderUsps()->validate(new Address([
             'name' => 'Elon Musk',
             'street1' => '3555 Deer Creek Lane',
             'city' => 'Palo Alto',
@@ -54,14 +38,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
 
     public function testCAAddressIsValid()
     {
-        $provider = Provider::instance(
-            'easypost',
-            [
-                'api_key' => $this->config['easypost_api_key'],
-            ]
-        );
-
-        $validation = (bool) $provider->validate(new Address([
+        $validation = (bool) $this->getProviderEasyPost()->validate(new Address([
             'name' => 'Apple Store, Market Mall',
             'street1' => '3625 Shaganappi Trail NW',
             'city' => 'Calgary',
@@ -77,14 +54,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
     {
         $this->expectException(InvalidAddress::class);
 
-        $provider = Provider::instance(
-            'easypost',
-            [
-                'api_key' => $this->config['easypost_api_key'],
-            ]
-        );
-
-        $validation = (bool) $provider->validate(new Address([
+        $validation = (bool) $this->getProviderEasyPost()->validate(new Address([
             'name' => 'Apple Store, Market Mall',
             'street1' => '1 Shaganappi Trail Way',
             'city' => 'Edmondton',
@@ -94,4 +64,24 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
         ]));
     }
 
+    protected function getProviderUsps(): Provider
+    {
+        return Provider::instance(
+            'usps',
+            [
+                'endpoint' => 'http://production.shippingapis.com/ShippingAPI.dll',
+                'user_id' => $this->config['usps_user_id'],
+            ]
+        );
+    }
+
+    protected function getProviderEasyPost(): Provider
+    {
+        return Provider::instance(
+            'easypost',
+            [
+                'api_key' => $this->config['easypost_api_key'],
+            ]
+        );
+    }
 }
