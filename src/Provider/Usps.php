@@ -37,7 +37,7 @@ class Usps extends Provider
 
         $response['Name'] = strtoupper($address->name);
 
-        return $this->buildAddress($response);die;
+        return $this->buildAddress($response);
     }
 
     /**
