@@ -38,7 +38,7 @@ abstract class Provider
      *
      * @param Address $address Object with data to be validated.
      *
-     * return array|bool
+     * return Address
      */
-    abstract public function validate(Address $address);
+    abstract public function validate(Address $address): Address;
 }

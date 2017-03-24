@@ -10,16 +10,23 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
 {
     public function testUSAddressIsValid()
     {
-        $validation = (bool) $this->getProviderUsps()->validate(new Address([
+        $address = $this->getProviderUsps()->validate(new Address([
             'name' => 'Elon Musk',
             'street1' => '3500 Deer Creek Road',
+            'street2' => 'STE 3',
             'city' => 'Palo Alto',
             'state' => 'CA',
             'zip' => '94304',
             'country' => 'US',
         ]));
 
-        $this->assertTrue($validation);
+        $this->assertEquals('ELON MUSK', $address->name);
+        $this->assertEquals('3500 DEER CREEK RD', $address->street1);
+        $this->assertEquals('STE 3', $address->street2);
+        $this->assertEquals('PALO ALTO', $address->city);
+        $this->assertEquals('CA', $address->state);
+        $this->assertEquals('94304', $address->zip);
+        $this->assertEquals('US', $address->country);
     }
 
     public function testUSAddressIsInvalid()
@@ -29,6 +36,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
         $this->getProviderUsps()->validate(new Address([
             'name' => 'Elon Musk',
             'street1' => '3555 Deer Creek Lane',
+            'street2' => 'STE 3',
             'city' => 'Palo Alto',
             'state' => 'NV',
             'zip' => '93333',
@@ -38,16 +46,23 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
 
     public function testCAAddressIsValid()
     {
-        $validation = (bool) $this->getProviderEasyPost()->validate(new Address([
+        $address = $this->getProviderEasyPost()->validate(new Address([
             'name' => 'Apple Store, Market Mall',
             'street1' => '3625 Shaganappi Trail NW',
+            'street2' => 'STE 1',
             'city' => 'Calgary',
             'state' => 'Alberta',
             'zip' => 'T3A 0E2',
             'country' => 'CA',
         ]));
 
-        $this->assertTrue($validation);
+        $this->assertEquals('APPLE STORE, MARKET MALL', $address->name);
+        $this->assertEquals('3625 SHAGANAPPI TRAIL NW', $address->street1);
+        $this->assertEquals('STE 1', $address->street2);
+        $this->assertEquals('CALGARY', $address->city);
+        $this->assertEquals('AB', $address->state);
+        $this->assertEquals('T3A 0E2', $address->zip);
+        $this->assertEquals('CA', $address->country);
     }
 
     public function testCAAddressIsInvalid()
@@ -57,6 +72,7 @@ class ProviderTest extends \Dsposito\Validator\Tests\TestCase
         $this->getProviderEasyPost()->validate(new Address([
             'name' => 'Apple Store, Market Mall',
             'street1' => '1 Shaganappi Trail Way',
+            'street2' => 'STE 1',
             'city' => 'Edmondton',
             'state' => 'Ontario',
             'zip' => 'T3A',

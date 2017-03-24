@@ -19,9 +19,9 @@ class Easypost extends Provider
      *
      * @param Address $address The address data to validate.
      *
-     * @return array|bool
+     * @return Address
      */
-    public function validate(Address $address)
+    public function validate(Address $address): Address
     {
         $response = $this->sendRequest($address);
 
@@ -29,7 +29,7 @@ class Easypost extends Provider
             throw new InvalidAddress();
         }
 
-        return $this->formatAddress($response);
+        return new Address($response->__toArray());
     }
 
     /**
@@ -57,36 +57,5 @@ class Easypost extends Provider
         } catch (Exception $e) {
             return false;
         }
-    }
-
-    /**
-     * Standardizes the format of a validated, cleaned address.
-     *
-     * @param EasyPostAddress $address Response address to be formatted.
-     *
-     * @return array
-     */
-    protected function formatAddress(EasyPostAddress $address): array
-    {
-        return [
-            'street1' => self::formatValue($address->street1),
-            'street2' => self::formatValue($address->street2),
-            'city' => self::formatValue($address->city),
-            'state' => $address->state,
-            'zip' => $address->zip,
-            'country' => $address->country,
-        ];
-    }
-
-    /**
-     * Formats capitalization for cleaned values.
-     *
-     * @param string $value Address value to format.
-     *
-     * @return string
-     */
-    protected function formatValue($value): string
-    {
-        return ucwords(strtolower($value));
     }
 }

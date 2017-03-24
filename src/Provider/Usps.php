@@ -19,18 +19,13 @@ class Usps extends Provider
      *
      * @param Address $address The address data to validate.
      *
-     * @return array
+     * @return Address
      */
-    public function validate(Address $address)
+    public function validate(Address $address): Address
     {
         // Name is a required field - just not in USPS's API.
         if (empty($address->name)) {
             throw new InvalidAddress();
-        }
-
-        // Streets should not be duplicated and avoid empty street1 from formatCleanedAddress().
-        if ($address->street1 === $address->street2) {
-            $address->street2 = '';
         }
 
         $request = $this->buildXMLRequest($address);
@@ -40,7 +35,9 @@ class Usps extends Provider
             throw new InvalidAddress();
         }
 
-        return $this->formatCleanedAddress($response, $address);
+        $response['Name'] = strtoupper($address->name);
+
+        return $this->buildAddress($response);die;
     }
 
     /**
@@ -58,9 +55,8 @@ class Usps extends Provider
 
         $body = $element->addChild('Address');
         $body->addAttribute('ID', "1");
-        // USPS requires that Address1 and Address2 be reversed from norm.
-        $body->addChild('Address1', $address->street2);
-        $body->addChild('Address2', $address->street1);
+        $body->addChild('Address1', $address->street1);
+        $body->addChild('Address2', $address->street2);
         $body->addChild('City', $address->city);
         $body->addChild('State', $address->state);
         $body->addChild('Zip5', $address->zip);
@@ -110,44 +106,22 @@ class Usps extends Provider
     }
 
     /**
-     * Standardizes the format of a validated, cleaned address.
+     * Builds an Address object based on key/value data.
      *
-     * @param array $cleaned_address Validated, cleaned address data returned from the API.
-     * @param Address $address Unvalidated address information object.
+     * @param array $data Key/value data to populate object properties.
      *
-     * @return array
+     * @return Address
      */
-    protected function formatCleanedAddress(array $cleaned_address, Address $address): array
+    protected function buildAddress(array $data): Address
     {
-        // USPS requires that Address1 and Address2 be reversed from norm.
-        $formatted_address = [
-            'street1' => self::formatValue($cleaned_address, 'Address2', $address->street1),
-            'street2' => self::formatValue($cleaned_address, 'Address1', $address->street2),
-            'city' => self::formatValue($cleaned_address, 'City', $address->city),
-            'state' => self::formatValue($cleaned_address, 'State', $address->state),
-            'zip' => self::formatValue($cleaned_address, 'Zip5', $address->zip),
-            'country' => $address->country,
-        ];
-
-        $street_1 = str_replace($formatted_address['street2'], '', $formatted_address['street1']);
-        $formatted_address['street1'] = trim($street_1);
-
-        return $formatted_address;
-    }
-
-    /**
-     * Formats capitalization for cleaned or default values.
-     *
-     * @param array $address Cleaned address information.
-     * @param string $property Address property to search for in cleaned address.
-     * @param string|null $default Value to return if property not found in address.
-     *
-     * @return string
-     */
-    protected function formatValue(array $address, string $property, $default = null): string
-    {
-        $value = $address[$property] ?? $default;
-
-        return ucwords(strtolower($value));
+        return new Address([
+            'name' => $data['Name'],
+            'street1' => $data['Address2'],
+            'street2' => $data['Address1'],
+            'city' => $data['City'],
+            'state' => $data['State'],
+            'zip' => $data['Zip5'],
+            'country' => 'US',
+        ]);
     }
 }

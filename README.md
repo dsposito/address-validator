@@ -26,7 +26,7 @@ $provider = Provider::instance(
     ]
 );
 
-$validated = $provider->validate(new Address([
+$address = $provider->validate(new Address([
     'name' => 'Elon Musk',
     'street1' => '3500 Deer Creek Road',
     'city' => 'Palo Alto',
