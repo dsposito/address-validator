@@ -16,7 +16,7 @@ composer require dsposito/address-validator
 
 Alternatively, add `"dsposito/address-validator": "^0.1"` to your composer.json file.
 
-##Usage
+## Usage
 ```php
 $provider = Provider::instance(
     'usps',
